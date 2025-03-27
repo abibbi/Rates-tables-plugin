@@ -157,7 +157,7 @@ function display_rate_tables_page() {
                     <tbody id="cert-columns-tbody">
                         <?php foreach ($rates['certificate_rates']['columns'] as $column) : ?>
                         <tr>
-                            <td><input type="text" name="cert_column_key[]" value="<?php echo esc_attr($column['key']); ?>" required></td>
+                         <td><input type="text" name="cert_column_key[]" value="<?php echo esc_attr($column['key']); ?>" required></td>
                             <td><input type="text" name="cert_column_label[]" value="<?php echo esc_attr($column['label']); ?>" required></td>
                             <td><button type="button" class="button remove-row">Remove</button></td>
                         </tr>
@@ -248,6 +248,13 @@ function display_rate_tables_page() {
       
 
       function addCertColumn() {
+
+        const columnNumber = document.getElementById('cert-columns-tbody').querySelectorAll('tr').length;
+        if(columnNumber >= 4){
+            alert('Maximum number of columns (4) reached');
+            return;
+        }
+        
         const tbody = document.getElementById('cert-columns-tbody');
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -260,6 +267,13 @@ function display_rate_tables_page() {
     }
 
     function addSavingsColumn() {
+
+        const columnNumber2 = document.getElementById('savings-columns-tbody').querySelectorAll('tr').length;
+        if(columnNumber2 >= 4){
+            alert('Maximum number of columns (4) reached');
+            return;
+        }
+
         const tbody = document.getElementById('savings-columns-tbody');
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -271,17 +285,7 @@ function display_rate_tables_page() {
         updateSavingsTable();
     }
 
-    function addSavingsColumn() {
-        const tbody = document.getElementById('savings-columns-tbody');
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td><input type="text" name="savings_column_key[]" required></td>
-            <td><input type="text" name="savings_column_label[]" required></td>
-            <td><button type="button" class="button remove-row">Remove</button></td>
-        `;
-        tbody.appendChild(row);
-        updateSavingsTable();
-    }
+
 
     function addCertRow() {
         const tbody = document.getElementById('cert-rates-tbody');
@@ -431,6 +435,3 @@ function display_rate_table_shortcode($atts) {
 }
 add_shortcode('rate_table', 'display_rate_table_shortcode');
 ?>
-//shortcode for the rate table
-[rate_table type="certificates"]
-[rate_table type="savings"]
